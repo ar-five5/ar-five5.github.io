@@ -66,13 +66,16 @@ export const ParticlesBackground = () => {
     };
 
     const connect = () => {
+      const maxDistanceSquared =
+        maxConnectionDistance * maxConnectionDistance;
       for (let i = 0; i < particlesArray.length; i += 1) {
-        for (let j = i; j < particlesArray.length; j += 1) {
+        for (let j = i + 1; j < particlesArray.length; j += 1) {
           const dx = particlesArray[i].x - particlesArray[j].x;
           const dy = particlesArray[i].y - particlesArray[j].y;
-          const distance = Math.sqrt(dx * dx + dy * dy);
+          const distanceSquared = dx * dx + dy * dy;
 
-          if (distance < maxConnectionDistance) {
+          if (distanceSquared < maxDistanceSquared) {
+            const distance = Math.sqrt(distanceSquared);
             const opacity = 1 - distance / maxConnectionDistance;
             ctx.strokeStyle = `rgba(255, 255, 255, ${opacity * 0.3})`;
             ctx.lineWidth = 0.5;
