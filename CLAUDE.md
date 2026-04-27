@@ -9,9 +9,24 @@ npm run dev       # start dev server (HMR via Vite)
 npm run build     # production build
 npm run preview   # preview production build locally
 npm run lint      # ESLint
+npm run test      # run tests once (Vitest)
+npm run test:watch   # run tests in watch mode
+npm run test:coverage # run tests with coverage report
 ```
 
-No test suite is configured.
+## Testing
+
+Tests use **Vitest** + **@testing-library/react** with a **jsdom** environment. All test files live in `src/test/`.
+
+- `setup.js` — imports `@testing-library/jest-dom` matchers
+- `mocks.js` — shared vi.mock() calls for `framer-motion`, `next-themes`, and `three`
+- `utils.test.js` — unit tests for `src/lib/utils.js` (`cn`)
+- `mock.test.js` — data shape/structure tests for `src/mock.js`
+- `pill.test.jsx`, `bg-pattern.test.jsx` — component unit tests
+- `About.test.jsx`, `Projects.test.jsx`, `Resume.test.jsx`, `Contact.test.jsx` — page tests
+- `Sidebar.test.jsx`, `TopNav.test.jsx` — layout component tests
+
+All page/component tests import `mocks.js` to stub out heavy dependencies (Three.js, framer-motion animations, next-themes).
 
 ## Architecture
 
