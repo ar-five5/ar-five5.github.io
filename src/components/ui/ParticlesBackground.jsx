@@ -12,9 +12,9 @@ export const ParticlesBackground = () => {
 
     let particlesArray = [];
     let animationFrameId;
-    const pixelsPerParticle = 5000;
-    const maxParticles = 300;
-    const maxConnectionDistance = 150;
+    const pixelsPerParticle = 5000; // Higher values yield fewer particles.
+    const maxParticles = 200; // Performance cap for particle count.
+    const maxConnectionDistance = 150; // Max distance (px) for connection lines.
 
     const handleResize = () => {
       canvas.width = window.innerWidth;
@@ -66,10 +66,10 @@ export const ParticlesBackground = () => {
     };
 
     const connect = () => {
-      for (let a = 0; a < particlesArray.length; a += 1) {
-        for (let b = a; b < particlesArray.length; b += 1) {
-          const dx = particlesArray[a].x - particlesArray[b].x;
-          const dy = particlesArray[a].y - particlesArray[b].y;
+      for (let i = 0; i < particlesArray.length; i += 1) {
+        for (let j = i; j < particlesArray.length; j += 1) {
+          const dx = particlesArray[i].x - particlesArray[j].x;
+          const dy = particlesArray[i].y - particlesArray[j].y;
           const distance = Math.sqrt(dx * dx + dy * dy);
 
           if (distance < maxConnectionDistance) {
@@ -77,8 +77,8 @@ export const ParticlesBackground = () => {
             ctx.strokeStyle = `rgba(255, 255, 255, ${opacity * 0.3})`;
             ctx.lineWidth = 0.5;
             ctx.beginPath();
-            ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
-            ctx.lineTo(particlesArray[b].x, particlesArray[b].y);
+            ctx.moveTo(particlesArray[i].x, particlesArray[i].y);
+            ctx.lineTo(particlesArray[j].x, particlesArray[j].y);
             ctx.stroke();
           }
         }
