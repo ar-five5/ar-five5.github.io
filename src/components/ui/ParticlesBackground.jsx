@@ -144,7 +144,7 @@ export const ParticlesBackground = () => {
   return (
     <canvas
       ref={canvasRef}
-      className="fixed top-0 bottom-0 left-0 right-0 md:left-80 lg:left-96 z-0 pointer-events-none"
+      className="fixed top-0 bottom-0 left-0 right-0 z-0 pointer-events-none"
       aria-hidden="true"
     />
   );
