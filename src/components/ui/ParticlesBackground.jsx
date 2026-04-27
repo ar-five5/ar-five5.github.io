@@ -12,7 +12,8 @@ export const ParticlesBackground = () => {
 
     let particlesArray = [];
     let animationFrameId;
-    const particleDensityDivisor = 5000;
+    const pixelsPerParticle = 5000;
+    const maxParticles = 300;
     const maxConnectionDistance = 150;
 
     const handleResize = () => {
@@ -37,9 +38,11 @@ export const ParticlesBackground = () => {
 
         if (this.x < 0 || this.x > canvas.width) {
           this.speedX = -this.speedX;
+          this.x = Math.max(0, Math.min(canvas.width, this.x));
         }
         if (this.y < 0 || this.y > canvas.height) {
           this.speedY = -this.speedY;
+          this.y = Math.max(0, Math.min(canvas.height, this.y));
         }
       }
 
@@ -53,8 +56,10 @@ export const ParticlesBackground = () => {
 
     const init = () => {
       particlesArray = [];
-      const particleCount =
-        (canvas.width * canvas.height) / particleDensityDivisor;
+      const particleCount = Math.min(
+        maxParticles,
+        (canvas.width * canvas.height) / pixelsPerParticle
+      );
       for (let i = 0; i < particleCount; i += 1) {
         particlesArray.push(new Particle());
       }
