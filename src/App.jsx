@@ -2,8 +2,8 @@ import React from 'react';
 import { HashRouter, Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { ThemeProvider } from "next-themes";
-import { BackgroundPaths } from "./components/ui/BackgroundPaths";
 import { CustomCursor } from "./components/ui/CustomCursor";
+import { ParticlesBackground } from "./components/ui/ParticlesBackground";
 import Sidebar from "./components/Sidebar";
 import TopNav from "./components/TopNav";
 import About from "./pages/About";
@@ -33,7 +33,7 @@ const Layout = () => {
   return (
     <div className="min-h-screen w-full flex flex-col md:flex-row relative z-10 selection:bg-white selection:text-black cursor-none">
       <CustomCursor />
-      <BackgroundPaths />
+      <ParticlesBackground />
 
       <div className="w-full md:w-80 lg:w-96 md:h-screen md:fixed left-0 top-0 border-b md:border-b-0 md:border-r border-[#222] bg-black/60 backdrop-blur-xl z-20">
         <Sidebar />
