@@ -12,22 +12,13 @@ export const ParticlesBackground = () => {
 
     let particlesArray = [];
     let animationFrameId;
-
-    const mouse = {
-      x: undefined,
-      y: undefined,
-      radius: 150,
-    };
+    const particleDensityDivisor = 5000;
+    const maxConnectionDistance = 150;
 
     const handleResize = () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
       init();
-    };
-
-    const handleMouseMove = (event) => {
-      mouse.x = event.clientX;
-      mouse.y = event.clientY;
     };
 
     class Particle {
@@ -62,22 +53,22 @@ export const ParticlesBackground = () => {
 
     const init = () => {
       particlesArray = [];
-      const particleCount = (canvas.width * canvas.height) / 5000;
+      const particleCount =
+        (canvas.width * canvas.height) / particleDensityDivisor;
       for (let i = 0; i < particleCount; i += 1) {
         particlesArray.push(new Particle());
       }
     };
 
     const connect = () => {
-      const maxDistance = 150;
       for (let a = 0; a < particlesArray.length; a += 1) {
         for (let b = a; b < particlesArray.length; b += 1) {
           const dx = particlesArray[a].x - particlesArray[b].x;
           const dy = particlesArray[a].y - particlesArray[b].y;
           const distance = Math.sqrt(dx * dx + dy * dy);
 
-          if (distance < maxDistance) {
-            const opacity = 1 - distance / maxDistance;
+          if (distance < maxConnectionDistance) {
+            const opacity = 1 - distance / maxConnectionDistance;
             ctx.strokeStyle = `rgba(255, 255, 255, ${opacity * 0.3})`;
             ctx.lineWidth = 0.5;
             ctx.beginPath();
@@ -103,13 +94,11 @@ export const ParticlesBackground = () => {
 
     handleResize();
     window.addEventListener("resize", handleResize);
-    window.addEventListener("mousemove", handleMouseMove);
 
     animate();
 
     return () => {
       window.removeEventListener("resize", handleResize);
-      window.removeEventListener("mousemove", handleMouseMove);
       window.cancelAnimationFrame(animationFrameId);
     };
   }, []);
