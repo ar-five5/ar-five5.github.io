@@ -68,21 +68,50 @@ export const ParticlesBackground = () => {
     const connect = () => {
       const maxDistanceSquared =
         maxConnectionDistance * maxConnectionDistance;
-      for (let i = 0; i < particlesArray.length; i += 1) {
-        for (let j = i + 1; j < particlesArray.length; j += 1) {
-          const dx = particlesArray[i].x - particlesArray[j].x;
-          const dy = particlesArray[i].y - particlesArray[j].y;
-          const distanceSquared = dx * dx + dy * dy;
+      const cellSize = maxConnectionDistance;
+      const grid = new Map();
 
-          if (distanceSquared < maxDistanceSquared) {
-            const distance = Math.sqrt(distanceSquared);
-            const opacity = 1 - distance / maxConnectionDistance;
-            ctx.strokeStyle = `rgba(255, 255, 255, ${opacity * 0.3})`;
-            ctx.lineWidth = 0.5;
-            ctx.beginPath();
-            ctx.moveTo(particlesArray[i].x, particlesArray[i].y);
-            ctx.lineTo(particlesArray[j].x, particlesArray[j].y);
-            ctx.stroke();
+      for (let i = 0; i < particlesArray.length; i += 1) {
+        const particle = particlesArray[i];
+        const cellX = Math.floor(particle.x / cellSize);
+        const cellY = Math.floor(particle.y / cellSize);
+        const key = `${cellX},${cellY}`;
+        if (!grid.has(key)) {
+          grid.set(key, []);
+        }
+        grid.get(key).push(i);
+      }
+
+      for (let i = 0; i < particlesArray.length; i += 1) {
+        const particle = particlesArray[i];
+        const cellX = Math.floor(particle.x / cellSize);
+        const cellY = Math.floor(particle.y / cellSize);
+
+        for (let offsetX = -1; offsetX <= 1; offsetX += 1) {
+          for (let offsetY = -1; offsetY <= 1; offsetY += 1) {
+            const neighborKey = `${cellX + offsetX},${cellY + offsetY}`;
+            const neighbors = grid.get(neighborKey);
+            if (!neighbors) continue;
+
+            for (let n = 0; n < neighbors.length; n += 1) {
+              const j = neighbors[n];
+              if (j <= i) continue;
+
+              const dx = particle.x - particlesArray[j].x;
+              const dy = particle.y - particlesArray[j].y;
+              const distanceSquared = dx * dx + dy * dy;
+
+              if (distanceSquared < maxDistanceSquared) {
+                const opacity =
+                  1 - Math.sqrt(distanceSquared) / maxConnectionDistance;
+                ctx.strokeStyle = `rgba(255, 255, 255, ${opacity * 0.3})`;
+                ctx.lineWidth = 0.5;
+                ctx.beginPath();
+                ctx.moveTo(particle.x, particle.y);
+                ctx.lineTo(particlesArray[j].x, particlesArray[j].y);
+                ctx.stroke();
+              }
+            }
           }
         }
       }
