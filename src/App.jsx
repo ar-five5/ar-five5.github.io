@@ -2,7 +2,7 @@ import React from 'react';
 import { HashRouter, Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { ThemeProvider } from "next-themes";
-import { DottedSurface } from "./components/ui/dotted-surface";
+import { BackgroundPaths } from "./components/ui/BackgroundPaths";
 import { CustomCursor } from "./components/ui/CustomCursor";
 import Sidebar from "./components/Sidebar";
 import TopNav from "./components/TopNav";
