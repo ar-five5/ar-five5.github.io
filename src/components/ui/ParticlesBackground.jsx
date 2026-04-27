@@ -17,8 +17,9 @@ export const ParticlesBackground = () => {
     const maxConnectionDistance = 150; // Max distance (px) for connection lines.
 
     const handleResize = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+      const { width, height } = canvas.getBoundingClientRect();
+      canvas.width = width;
+      canvas.height = height;
       init();
     };
 
@@ -143,7 +144,7 @@ export const ParticlesBackground = () => {
   return (
     <canvas
       ref={canvasRef}
-      className="fixed inset-0 z-0 pointer-events-none"
+      className="fixed top-0 bottom-0 left-0 right-0 md:left-80 lg:left-96 z-0 pointer-events-none"
       aria-hidden="true"
     />
   );
