@@ -33,7 +33,7 @@ const Layout = () => {
   return (
     <div className="min-h-screen w-full flex flex-col md:flex-row relative z-10 selection:bg-white selection:text-black cursor-none">
       <CustomCursor />
-      <DottedSurface className="opacity-70" />
+      <BackgroundPaths />
 
       <div className="w-full md:w-80 lg:w-96 md:h-screen md:fixed left-0 top-0 border-b md:border-b-0 md:border-r border-[#222] bg-black/60 backdrop-blur-xl z-20">
         <Sidebar />
