@@ -1,14 +1,18 @@
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 import { HashRouter, Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
-import { ThemeProvider } from "next-themes";
 import { ParticlesBackground } from "./components/ui/ParticlesBackground";
-import Sidebar from "./components/Sidebar";
-import TopNav from "./components/TopNav";
+import Grain from "./components/ui/Grain";
+import TerminalIntro from "./components/ui/TerminalIntro";
+import Sidebar from "./components/layout/Sidebar";
+import TopNav from "./components/layout/TopNav";
 import About from "./pages/About";
 import Resume from "./pages/Resume";
 import Projects from "./pages/Projects";
 import Contact from "./pages/Contact";
+import { useLenis } from "./hooks/useLenis";
+import { useScrollToTop } from "./hooks/useScrollToTop";
+import { initAnalytics } from "./lib/analytics";
 
 const PageWrapper = ({ children }) => {
   const location = useLocation();
@@ -16,10 +20,10 @@ const PageWrapper = ({ children }) => {
     <AnimatePresence mode="wait">
       <motion.div
         key={location.pathname}
-        initial={{ opacity: 0, filter: 'blur(10px)', y: 20 }}
-        animate={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
-        exit={{ opacity: 0, filter: 'blur(10px)', y: -20 }}
-        transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+        initial={{ opacity: 0, filter: 'blur(10px)', clipPath: 'inset(8% 0 8% 0)' }}
+        animate={{ opacity: 1, filter: 'blur(0px)', clipPath: 'inset(0% 0 0% 0)' }}
+        exit={{ opacity: 0, filter: 'blur(10px)', clipPath: 'inset(8% 0 8% 0)' }}
+        transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
         className="w-full"
       >
         {children}
@@ -29,6 +33,9 @@ const PageWrapper = ({ children }) => {
 };
 
 const Layout = () => {
+  useLenis();
+  useScrollToTop();
+
   return (
     <div className="min-h-screen w-full flex flex-col md:flex-row relative z-10 selection:bg-white selection:text-black">
       <ParticlesBackground />
@@ -52,7 +59,7 @@ const Layout = () => {
         </main>
 
         <footer className="w-full border-t border-[#222] p-6 text-center mt-auto bg-black/40 backdrop-blur-md">
-          <p className="text-xs font-mono text-[#666]">
+          <p className="text-xs font-mono text-[#828282]">
             © {new Date().getFullYear()} AMOGH RAJ / DESIGNED & BUILT WITH PRECISION.
           </p>
         </footer>
@@ -62,12 +69,19 @@ const Layout = () => {
 };
 
 function App() {
+  const [, setIntroDone] = useState(false);
+
+  const handleIntroComplete = useCallback(() => {
+    setIntroDone(true);
+    initAnalytics();
+  }, []);
+
   return (
-    <ThemeProvider attribute="class" defaultTheme="dark">
-      <HashRouter>
-        <Layout />
-      </HashRouter>
-    </ThemeProvider>
+    <HashRouter>
+      <Layout />
+      <TerminalIntro onComplete={handleIntroComplete} />
+      <Grain />
+    </HashRouter>
   );
 }
 

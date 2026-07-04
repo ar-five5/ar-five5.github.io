@@ -1,6 +1,7 @@
 import React from 'react';
-import { MOCK_DATA } from '../mock';
-import Pill from '../components/ui/pill';
+import { MOCK_DATA } from '../data/mock';
+import Pill from '../components/ui/Pill';
+import StatCounter from '../components/ui/StatCounter';
 import { motion } from 'framer-motion';
 
 const SectionHeader = ({ num, title }) => (
@@ -10,7 +11,7 @@ const SectionHeader = ({ num, title }) => (
     transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
     className="flex items-center gap-4 mb-12"
   >
-    <span className="font-mono text-xs text-[#666]">0{num} / {title.toUpperCase()}</span>
+    <span className="font-mono text-xs text-[#828282]">0{num} / {title.toUpperCase()}</span>
     <div className="h-[1px] flex-1 bg-gradient-to-r from-[#222] to-transparent" />
   </motion.div>
 );
@@ -67,7 +68,7 @@ const About = () => {
         animate={{ opacity: 1 }}
         transition={{ duration: 1, delay: 0.6 }}
       >
-        <h3 className="font-mono text-sm text-[#666] mb-6 uppercase tracking-widest">Research Interests</h3>
+        <h2 className="font-mono text-sm text-[#828282] mb-6 uppercase tracking-widest">Research Interests</h2>
         <div className="flex flex-wrap gap-3">
           {profile.researchInterests.map((interest, i) => (
             <motion.div
@@ -78,6 +79,21 @@ const About = () => {
             >
               <Pill className="hover-target">{interest}</Pill>
             </motion.div>
+          ))}
+        </div>
+      </motion.div>
+
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: '-100px' }}
+        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+        className="border-t border-[#222] pt-10"
+      >
+        <h2 className="font-mono text-sm text-[#828282] mb-8 uppercase tracking-widest">By The Numbers</h2>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+          {profile.impactStats.map((stat, i) => (
+            <StatCounter key={stat.label} {...stat} delay={i * 0.1} />
           ))}
         </div>
       </motion.div>

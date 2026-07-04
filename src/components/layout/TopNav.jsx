@@ -1,6 +1,7 @@
 import React from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import Magnetic from '../ui/Magnetic';
 
 const NAV_ITEMS = [
   { path: '/', label: 'About' },
@@ -19,16 +20,18 @@ const TopNav = () => {
           const isActive = location.pathname === item.path;
           return (
             <li key={item.path} className="relative">
-              <NavLink
-                to={item.path}
-                className={({ isActive }) =>
-                  `text-sm font-mono tracking-wider uppercase transition-colors duration-200 hover-target py-2 block ${
-                    isActive ? 'text-white' : 'text-[#666] hover:text-white'
-                  }`
-                }
-              >
-                {item.label}
-              </NavLink>
+              <Magnetic strength={0.2}>
+                <NavLink
+                  to={item.path}
+                  className={({ isActive }) =>
+                    `text-sm font-mono tracking-wider uppercase transition-colors duration-200 hover-target py-2 block ${
+                      isActive ? 'text-white' : 'text-[#828282] hover:text-white'
+                    }`
+                  }
+                >
+                  {item.label}
+                </NavLink>
+              </Magnetic>
               {isActive && (
                 <motion.div
                   layoutId="nav-indicator"

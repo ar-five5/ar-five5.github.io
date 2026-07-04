@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { MOCK_DATA } from '../mock';
+import { MOCK_DATA } from '../data/mock';
 import { Mail, MapPin, Send } from 'lucide-react';
 import { motion } from 'framer-motion';
+import Magnetic from '../components/ui/Magnetic';
 
 const SectionHeader = ({ num, title }) => (
   <motion.div
@@ -10,7 +11,7 @@ const SectionHeader = ({ num, title }) => (
     transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
     className="flex items-center gap-4 mb-12"
   >
-    <span className="font-mono text-xs text-[#666]">0{num} / {title.toUpperCase()}</span>
+    <span className="font-mono text-xs text-[#828282]">0{num} / {title.toUpperCase()}</span>
     <div className="h-[1px] flex-1 bg-gradient-to-r from-[#222] to-transparent" />
   </motion.div>
 );
@@ -44,7 +45,7 @@ const Contact = () => {
           className="flex flex-col gap-12"
         >
           <div>
-            <h2 className="text-3xl font-medium text-white mb-6">Let's connect.</h2>
+            <h2 className="text-3xl font-medium text-white mb-6">Let&apos;s connect.</h2>
             <p className="text-[#888] text-sm leading-relaxed max-w-sm">
               Open to internship opportunities, research collaborations, and interesting problems. Fastest way to reach me is email.
             </p>
@@ -55,10 +56,10 @@ const Contact = () => {
 
             <a href={`mailto:${profile.contact.email}`} className="flex items-start gap-6 group hover-target">
               <div className="w-12 h-12 rounded-full bg-[#111] border border-[#222] flex items-center justify-center group-hover:scale-110 group-hover:border-[#555] transition-all duration-300">
-                <Mail className="w-5 h-5 text-[#666] group-hover:text-white transition-colors" />
+                <Mail className="w-5 h-5 text-[#828282] group-hover:text-white transition-colors" />
               </div>
               <div className="pt-2 flex flex-col gap-1">
-                <p className="text-xs font-mono text-[#666]">Email</p>
+                <p className="text-xs font-mono text-[#828282]">Email</p>
                 <p className="text-lg text-white group-hover:translate-x-2 transition-transform duration-300">{profile.contact.email}</p>
                 <p className="text-sm text-[#888] group-hover:translate-x-2 transition-transform duration-300 delay-75">{profile.contact.collegeEmail}</p>
               </div>
@@ -66,10 +67,10 @@ const Contact = () => {
 
             <div className="flex items-start gap-6 group hover-target cursor-default">
               <div className="w-12 h-12 rounded-full bg-[#111] border border-[#222] flex items-center justify-center group-hover:scale-110 group-hover:border-[#555] transition-all duration-300">
-                <MapPin className="w-5 h-5 text-[#666] group-hover:text-white transition-colors" />
+                <MapPin className="w-5 h-5 text-[#828282] group-hover:text-white transition-colors" />
               </div>
               <div className="pt-2">
-                <p className="text-xs font-mono text-[#666] mb-1">Location</p>
+                <p className="text-xs font-mono text-[#828282] mb-1">Location</p>
                 <p className="text-lg text-white group-hover:translate-x-2 transition-transform duration-300">{profile.contact.location}</p>
               </div>
             </div>
@@ -85,7 +86,7 @@ const Contact = () => {
           className="flex flex-col gap-10"
         >
           <div className="flex flex-col gap-2 group relative">
-            <label className="font-mono text-xs text-[#666] uppercase group-focus-within:text-white transition-colors">Name</label>
+            <label className="font-mono text-xs text-[#828282] uppercase group-focus-within:text-white transition-colors">Name</label>
             <input
               type="text"
               required
@@ -98,7 +99,7 @@ const Contact = () => {
           </div>
 
           <div className="flex flex-col gap-2 group relative">
-            <label className="font-mono text-xs text-[#666] uppercase group-focus-within:text-white transition-colors">Email</label>
+            <label className="font-mono text-xs text-[#828282] uppercase group-focus-within:text-white transition-colors">Email</label>
             <input
               type="email"
               required
@@ -111,7 +112,7 @@ const Contact = () => {
           </div>
 
           <div className="flex flex-col gap-2 group relative">
-            <label className="font-mono text-xs text-[#666] uppercase group-focus-within:text-white transition-colors">Message</label>
+            <label className="font-mono text-xs text-[#828282] uppercase group-focus-within:text-white transition-colors">Message</label>
             <textarea
               required
               rows={4}
@@ -123,16 +124,18 @@ const Contact = () => {
             <div className="absolute bottom-1 left-0 w-full h-[1px] bg-white scale-x-0 group-focus-within:scale-x-100 origin-left transition-transform duration-500 ease-[0.22,1,0.36,1]" />
           </div>
 
-          <button
-            type="submit"
-            className="hover-target group self-start flex items-center justify-between w-full md:w-auto md:min-w-[200px] px-8 py-4 bg-white text-black font-medium transition-all duration-300 rounded-sm mt-4 overflow-hidden relative"
-          >
-            <div className="absolute inset-0 bg-[#ddd] translate-y-[100%] group-hover:translate-y-0 transition-transform duration-500 ease-[0.22,1,0.36,1]" />
-            <span className="relative z-10 flex items-center gap-3">
-              {status === 'success' ? 'Opening email client...' : 'Send Message'}
-              {status === 'idle' && <Send className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300" />}
-            </span>
-          </button>
+          <Magnetic strength={0.15} className="self-start w-full md:w-auto">
+            <button
+              type="submit"
+              className="hover-target group flex items-center justify-between w-full md:w-auto md:min-w-[200px] px-8 py-4 bg-white text-black font-medium transition-all duration-300 rounded-sm mt-4 overflow-hidden relative"
+            >
+              <div className="absolute inset-0 bg-[#ddd] translate-y-[100%] group-hover:translate-y-0 transition-transform duration-500 ease-[0.22,1,0.36,1]" />
+              <span className="relative z-10 flex items-center gap-3">
+                {status === 'success' ? 'Opening email client...' : 'Send Message'}
+                {status === 'idle' && <Send className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300" />}
+              </span>
+            </button>
+          </Magnetic>
         </motion.form>
       </div>
     </div>

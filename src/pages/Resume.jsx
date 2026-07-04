@@ -1,7 +1,9 @@
 import React from 'react';
-import { MOCK_DATA } from '../mock';
-import Pill from '../components/ui/pill';
+import { MOCK_DATA } from '../data/mock';
+import Pill from '../components/ui/Pill';
+import Magnetic from '../components/ui/Magnetic';
 import { motion } from 'framer-motion';
+import { Download } from 'lucide-react';
 
 const SectionHeader = ({ num, title }) => (
   <motion.div 
@@ -10,7 +12,7 @@ const SectionHeader = ({ num, title }) => (
     transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
     className="flex items-center gap-4 mb-12"
   >
-    <span className="font-mono text-xs text-[#666]">0{num} / {title.toUpperCase()}</span>
+    <span className="font-mono text-xs text-[#828282]">0{num} / {title.toUpperCase()}</span>
     <div className="h-[1px] flex-1 bg-gradient-to-r from-[#222] to-transparent" />
   </motion.div>
 );
@@ -18,15 +20,16 @@ const SectionHeader = ({ num, title }) => (
 const TimelineItem = ({ period, title, subtitle, description, index }) => (
   <motion.div 
     initial={{ opacity: 0, y: 20 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.5, delay: index * 0.1, ease: [0.22, 1, 0.36, 1] }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true, margin: '-60px' }}
+    transition={{ duration: 0.5, delay: (index % 4) * 0.08, ease: [0.22, 1, 0.36, 1] }}
     className="flex flex-col md:flex-row gap-4 md:gap-12 group hover-target relative"
   >
     {/* Animated line on hover */}
     <div className="absolute left-[-2px] md:left-auto md:right-[-2px] top-0 bottom-0 w-[2px] bg-[#555] scale-y-0 group-hover:scale-y-100 origin-top transition-transform duration-500 ease-[0.22,1,0.36,1]" />
     
     <div className="md:w-32 flex-shrink-0 pt-1">
-      <span className="font-mono text-xs text-[#666] group-hover:text-white transition-colors duration-300">{period}</span>
+      <span className="font-mono text-xs text-[#828282] group-hover:text-white transition-colors duration-300">{period}</span>
     </div>
     
     <div className="flex-1 pb-12 border-l border-[#222] pl-6 md:border-none md:pl-0 relative overflow-hidden">
@@ -44,14 +47,35 @@ const Resume = () => {
 
   return (
     <div className="flex flex-col gap-20">
-      <SectionHeader num={2} title="Resume" />
+      <div className="flex items-center justify-between gap-4 -mb-4">
+        <SectionHeader num={2} title="Resume" />
+      </div>
+
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.3, duration: 0.5 }}
+        className="-mt-12"
+      >
+        <Magnetic strength={0.2}>
+          <a
+            href={`${import.meta.env.BASE_URL}resume.pdf`}
+            download
+            className="hover-target group inline-flex items-center gap-3 border border-[#333] rounded-sm px-5 py-3 text-xs font-mono uppercase tracking-widest text-[#A1A1AA] hover:border-white hover:text-white transition-colors duration-300 w-fit"
+          >
+            <Download className="w-4 h-4" />
+            Download PDF
+          </a>
+        </Magnetic>
+      </motion.div>
 
       {/* Experience */}
       <section>
         <motion.h2 
           initial={{ opacity: 0 }} 
-          animate={{ opacity: 1 }} 
-          className="font-mono text-sm text-[#666] mb-12 uppercase tracking-widest"
+          whileInView={{ opacity: 1 }} 
+          viewport={{ once: true }}
+          className="font-mono text-sm text-[#828282] mb-12 uppercase tracking-widest"
         >
           Experience
         </motion.h2>
@@ -73,8 +97,9 @@ const Resume = () => {
       <section>
         <motion.h2 
           initial={{ opacity: 0 }} 
-          animate={{ opacity: 1 }} 
-          className="font-mono text-sm text-[#666] mb-12 uppercase tracking-widest"
+          whileInView={{ opacity: 1 }} 
+          viewport={{ once: true }}
+          className="font-mono text-sm text-[#828282] mb-12 uppercase tracking-widest"
         >
           Education
         </motion.h2>
@@ -96,8 +121,9 @@ const Resume = () => {
       <section>
         <motion.h2 
           initial={{ opacity: 0 }} 
-          animate={{ opacity: 1 }} 
-          className="font-mono text-sm text-[#666] mb-12 uppercase tracking-widest"
+          whileInView={{ opacity: 1 }} 
+          viewport={{ once: true }}
+          className="font-mono text-sm text-[#828282] mb-12 uppercase tracking-widest"
         >
           Capabilities
         </motion.h2>
@@ -106,8 +132,9 @@ const Resume = () => {
             <motion.div 
               key={category}
               initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1, duration: 0.5 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-60px' }}
+              transition={{ delay: (index % 4) * 0.1, duration: 0.5 }}
             >
               <h3 className="text-sm font-medium text-white mb-6 border-b border-[#222] pb-2">{category}</h3>
               <div className="flex flex-wrap gap-2">
